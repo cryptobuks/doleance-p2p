@@ -30,7 +30,11 @@ public class User {
         this.username = username;
     }
 
+    public User() {
+    }
+
     public User(String username) {
+        this();
         this.username = username;
     }
 }
