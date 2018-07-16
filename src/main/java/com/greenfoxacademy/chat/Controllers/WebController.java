@@ -29,11 +29,14 @@ public class WebController {
     }
 
     @PostMapping("/register")
-    public String register(@ModelAttribute String username) {
+    public String register(@ModelAttribute User userToAdd) {
+        String username = userToAdd.getUsername();
         if (username == null) {
             System.out.println(logController.writeLog("ERROR", "/register", "POST", "username=null"));
             return "redirect:register";
         } else {
+            System.out.println(logController.writeLog("INFO", "/register", "POST", "username=" + username));
+            System.out.println("Name:" + username);
             User newUser = new User(username);
             userService.saveUser(newUser);
             return "redirect:main";
@@ -46,7 +49,9 @@ public class WebController {
         if (userService.countUser() > 0) {
             User currentUser = userService.getUserById(1L);
             model.addAttribute("username", currentUser);
+            return "main";
+        } else {
+            return "register";
         }
-        return "main";
     }
 }
